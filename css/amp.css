@@ -243,7 +243,8 @@ i-amp-sizer {
 }
 
 .-amp-layout-size-defined > [placeholder],
-.-amp-layout-size-defined > [fallback] {
+.-amp-layout-size-defined > [fallback],
+.-amp-layout-size-defined > [content] {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;

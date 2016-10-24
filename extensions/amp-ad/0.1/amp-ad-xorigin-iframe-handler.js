@@ -195,8 +195,12 @@ export class AmpAdXOriginIframeHandler {
       // unlayout already called
       return;
     }
-    this.freeXOriginIframe(this.iframe.name.indexOf('_master') >= 0);
-    this.uiHandler_.setDisplayState(AdDisplayState.LOADED_NO_CONTENT);
+    if (this.baseInstance_.getContent()) {
+      this.uiHandler_.setDisplayState(AdDisplayState.LOADED_STATIC_CONTENT);
+    } else {
+      this.freeXOriginIframe(this.iframe.name.indexOf('_master') >= 0);
+      this.uiHandler_.setDisplayState(AdDisplayState.LOADED_NO_CONTENT);
+    }
   }
 
   /**

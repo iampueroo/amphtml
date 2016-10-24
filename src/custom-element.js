@@ -1312,6 +1312,36 @@ function createBaseCustomElementClass(win) {
     }
 
     /**
+     * Returns an optional content element for this custom element.
+     * @return {?Element}
+     * @package @final @this {!Element}
+     */
+    getContent() {
+      return dom.childElementByAttr(this, 'content');
+    }
+
+    /**
+     * Hides or shows the static content, if available. This function must only
+     * be called inside a mutate context.
+     * @param {boolean} state
+     * @package @final @this {!Element}
+     */
+    toggleContent(state) {
+      assertNotTemplate(this);
+      if (state == true) {
+        const contentElement = this.getContent();
+        if (contentElement) {
+          this.getResources().scheduleLayout(this, contentElement);
+        }
+        // If we have the content, there's never a need for fallback
+        const fallback = this.getFallback();
+        if (fallback) {
+          fallback.classList.add('amp-hidden');
+        }
+      }
+    }
+
+    /**
      * Whether the loading can be shown for this element.
      * @return {boolean}
      * @private @this {!Element}

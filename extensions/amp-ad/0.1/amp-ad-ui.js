@@ -46,6 +46,11 @@ export const AdDisplayState = {
    * ad server.
    */
   LOADED_NO_CONTENT: 3,
+
+  /**
+   * The ad has been laid out, and ad content has been provided statically
+   */
+  LOADED_STATIC_CONTENT: 4,
 };
 
 export class AmpAdUIHandler {
@@ -91,6 +96,9 @@ export class AmpAdUIHandler {
       case AdDisplayState.NOT_LAID_OUT:
         this.displayUnlayoutUI_();
         break;
+      case AdDisplayState.LOADED_STATIC_CONTENT:
+        this.displayStaticContentUI_();
+        break;
       default:
         dev().error(TAG, 'state is not supported');
     }
@@ -126,6 +134,7 @@ export class AmpAdUIHandler {
           // If already unlaid out, do not replace current placeholder then.
           return;
         }
+        this.baseInstance_.toggleContent(false);
         this.baseInstance_.togglePlaceholder(false);
         this.baseInstance_.toggleFallback(true);
         this.state = AdDisplayState.LOADED_NO_CONTENT;
@@ -155,6 +164,21 @@ export class AmpAdUIHandler {
       }
       this.baseInstance_.togglePlaceholder(true);
       this.baseInstance_.toggleFallback(false);
+      this.baseInstance_.toggleContent(false);
+    });
+  }
+
+  /**
+   * Apply UI for static ad
+   * Hide fallback and placeholder if exists
+   * @private
+   */
+  displayStaticContentUI_() {
+    this.state = AdDisplayState.LOADED_STATIC_CONTENT;
+    this.baseInstance_.deferMutate(() => {
+      this.baseInstance_.togglePlaceholder(false);
+      this.baseInstance_.toggleFallback(false);
+      this.baseInstance_.toggleContent(true);
     });
   }
 }

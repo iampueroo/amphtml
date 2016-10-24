@@ -580,6 +580,25 @@ export class BaseElement {
   }
 
   /**
+   * Returns an optional content element for this custom element.
+   * @return {?Element}
+   * @public @final
+   */
+  getContent() {
+    return this.element.getContent();
+  }
+
+  /**
+   * Hides or shows the static content, if available. This function must only
+   * be called inside a mutate context.
+   * @param {boolean} state
+   * @public @final
+   */
+  toggleContent(state) {
+    this.element.toggleContent(state);
+  }
+
+  /**
    * Returns an optional overflow element for this custom element.
    * @return {?Element}
    * @public @final
